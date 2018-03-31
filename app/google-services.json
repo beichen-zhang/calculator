@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "657684558929",
+    "project_id": "totemic-ground-199423"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:657684558929:android:d5554e22b7130b6c",
+        "android_client_info": {
+          "package_name": "com.beichenzhang.calculator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "657684558929-4663jd2hd9ousd07dimp4t278mi3hhvn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.beichenzhang.calculator",
+            "certificate_hash": "71d9b75218783ecda486313e92f2aad656dbcc0e"
+          }
+        },
+        {
+          "client_id": "657684558929-uam3tbamr91if4ttr5ni1kg10oqdgtm8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY4NiZMShbQuUePC4TuI0n-XiUxI_ha2M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
