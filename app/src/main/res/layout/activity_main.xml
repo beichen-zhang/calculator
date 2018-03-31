@@ -332,16 +332,29 @@
         android:layout_alignTop="@+id/bn_login"
         android:text="Log Out" />
 
-    <Button
-        android:id="@+id/button20"
-        android:layout_width="match_parent"
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_below="@+id/buttondot"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:text="Backspace" />
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/linearLayout"
+        android:layout_toRightOf="@+id/linearLayout"
+        android:text="Rad/Deg" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/switch1"
+        android:layout_alignEnd="@+id/button14"
+        android:layout_alignRight="@+id/button14"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:text="Rad" />
+
 
 </RelativeLayout>
 

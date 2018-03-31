@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
@@ -60,11 +62,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button tan;
     private Button par;
     private Button logout;
-    private Button backspace;
 //Declare monitor text.
     private TextView proc;
     private TextView result;
+    private TextView rad_status;
     private ImageView icon;
+    private Switch rad;
 //Helper variable
     String proccesor;
     int isInPar;     //check how many parenthesis are open at this time. eg 1+((( has isInPar = 3.
@@ -72,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     boolean start;  //whether it is the start of the String
     boolean ispar; //restrict number after ')'. like (1+1)2.
     boolean negative; //negative number
+    boolean finish;  // when press '='
+    boolean inRad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ispar=false;
         negative=false;
         isInPar = 0;
-
+        finish= false;
+        inRad = true;
         Signin = (SignInButton)findViewById(R.id.bn_login);
         Signin.setOnClickListener(this);
 
@@ -131,10 +137,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         par.setOnClickListener(this);
         logout = (Button)findViewById(R.id.button19);
         logout.setOnClickListener(this);
-        backspace = (Button)findViewById(R.id.button20);
-        backspace.setOnClickListener(this);
         proc = (TextView) findViewById(R.id.textView);
         result = (TextView) findViewById(R.id.textView2);
+        rad_status = (TextView) findViewById(R.id.textView3);
+        rad = (Switch)findViewById(R.id.switch1);
+        rad.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    inRad = false;
+                    rad_status.setText("Deg");
+                }
+                else{
+                    inRad = true;
+                    rad_status.setText("Rad");
+                }
+            }
+        });
 //Hide button when User have not login.
         proc.setText("");
         result.setText("");
@@ -164,7 +183,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         par.setVisibility(View.GONE);
         icon.setVisibility(View.GONE);
         logout.setVisibility(View.GONE);
-        backspace.setVisibility(View.GONE);
+        rad_status.setVisibility(View.GONE);
+        rad.setVisibility(View.GONE);
         GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         client = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,signInOptions).build();
 
@@ -192,6 +212,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return super.onOptionsItemSelected(item);
     }
+    public void init(){
+        result.setText("");
+        have_Function=false;
+        ispar=false;
+        negative=false;
+        finish=false;
+        start=false;
+        isInPar=0;
+    }
 //**********************************************************
 //Handling the botton. Eliminate some illegal input.
 //**********************************************************
@@ -202,7 +231,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 signin();
                 break;
             case R.id.button7:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("1");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "1");
                     have_Function = false;
@@ -210,7 +243,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button8:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("2");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "2");
                     have_Function = false;
@@ -218,7 +255,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button9:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("3");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "3");
                     start = false;
@@ -226,7 +267,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button6:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("4");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "4");
                     start = false;
@@ -234,7 +279,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button5:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("5");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "5");
                     have_Function = false;
@@ -242,7 +291,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button4:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("6");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "6");
                     have_Function = false;
@@ -250,7 +303,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button3:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("7");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "7");
                     have_Function = false;
@@ -258,7 +315,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button1:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("8");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "8");
                     have_Function = false;
@@ -266,7 +327,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button2:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("9");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "9");
                     have_Function = false;
@@ -274,7 +339,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button0:
-                if(!ispar) {
+                if(finish){
+                    proc.setText("0");
+                    init();
+                }
+                else if(!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "0");
                     have_Function = false;
@@ -282,14 +351,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.buttoncl:
+                if(finish){
+                    finish = false;
+                }
                 proc.setText("");
                 result.setText("");
                 have_Function=true;
                 start=true;
                 ispar=false;
+                negative=false;
+                isInPar = 0;
                 break;
             case R.id.button10:
-                if (!have_Function) {
+                if(finish){
+                    proc.setText("");
+                    init();
+                    start = true;
+                    have_Function =true;
+                }
+                else if (!have_Function) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "+");
                     have_Function = true;
@@ -298,27 +378,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button13:
+                if(finish){
+                    proc.setText("-");
+                    init();
+                    negative = true;
+                    have_Function =true;
+                }
+                else
                 if (!have_Function||!negative) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "-");
                     have_Function = true;
                     ispar = false;
-                    if(have_Function) {
-                        negative=true;
-                    }
+                    negative=true;
+
                 }
                 break;
             case R.id.button12:
-                if (!have_Function) {
+                if(finish){
+                    proc.setText("");
+                    init();
+                    start = true;
+                    have_Function =true;
+                }
+                else if (!have_Function) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "*");
                     have_Function = true;
                     ispar = false;
-                    negative = true;
+                    negative = false;
                 }
                 break;
             case R.id.button11:
-                if (!have_Function) {
+                if(finish){
+                    proc.setText("");
+                    init();
+                    start = true;
+                    have_Function =true;
+                }
+                else if (!have_Function) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "/");
                     have_Function = true;
@@ -327,7 +425,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.buttondot:
-                if (!have_Function&&!ispar) {
+                if(finish){
+                    proc.setText("");
+                    init();
+                    start = true;
+                    have_Function =true;
+                }
+                else if (!have_Function&&!ispar) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + ".");
                     have_Function = true;
@@ -335,7 +439,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button18:
-                if (!have_Function) {
+                if(finish){
+                    proc.setText("");
+                    init();
+                    start = true;
+                    have_Function =true;
+                }
+                else if (!have_Function) {
                     if (isInPar != 0) {
                         proccesor = proc.getText().toString();
                         proc.setText(proccesor + ")");
@@ -347,7 +457,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button15:
-                if (have_Function||start) {
+                if(finish){
+                    proc.setText("Sin(");
+                    init();
+                    have_Function = true;
+                    isInPar +=1;
+                }
+                else if (have_Function||start) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "Sin(");
                     isInPar += 1;
@@ -357,7 +473,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button16:
-                if (have_Function||start) {
+                if(finish){
+                    proc.setText("Cos(");
+                    init();
+                    have_Function = true;
+                    isInPar +=1;
+                }
+                else if (have_Function||start) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "Cos(");
                     isInPar += 1;
@@ -366,7 +488,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.button17:
-                if (have_Function||start) {
+                if(finish){
+                    proc.setText("Tan(");
+                    init();
+                    have_Function = true;
+                    isInPar +=1;
+                }
+                else if (have_Function||start) {
                     proccesor = proc.getText().toString();
                     proc.setText(proccesor + "Tan(");
                     isInPar += 1;
@@ -376,20 +504,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.button14:
                 proccesor = proc.getText().toString();
+                if (proccesor.isEmpty()){
+                    break;
+                }
                 //calculate result from given string.
                 String resu = evaluate(proccesor);
-
                 result.setText(compute(resu));
+                finish=true;
 
                 break;
             case R.id.button19:
                 signout();
+                init();
+                start = true;
                 break;
-            case R.id.button20:
-                proccesor = proc.getText().toString();
-                proccesor = proccesor.substring(0, proccesor.length() - 1);
-                proc.setText(proccesor);
-                break;
+
         }
     }
 //**********************************************************
@@ -455,7 +584,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String part = evaluate (input.substring(i+4));
                 String calc = compute(part);
                 if (!calc.equals("Error")) {
-                    Double part_num =Math.sin(Double.parseDouble(calc));
+                    Double part_num = 0.0;
+                    if  (inRad) {
+                        part_num = Math.sin(Double.parseDouble(calc));
+                    }
+                    else{
+                        part_num = Math.sin(Math.toRadians(Double.parseDouble(calc)));
+                    }
                     int next_index = skip(input,i);
                     i = next_index;
                     ret_val += part_num.toString();
@@ -471,7 +606,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String part = evaluate (input.substring(i+4));
                 String calc = compute(part);
                 if (!calc.equals("Error")) {
-                    Double part_num =Math.cos(Double.parseDouble(calc));
+                    Double part_num = 0.0;
+                    if  (inRad) {
+                        part_num = Math.cos(Double.parseDouble(calc));
+                    }
+                    else{
+                        part_num = Math.cos(Math.toRadians(Double.parseDouble(calc)));
+                    }
                     int next_index = skip(input,i);
                     i = next_index;
                     ret_val += part_num.toString();
@@ -487,7 +628,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String part = evaluate (input.substring(i+4));
                 String calc = compute(part);
                 if (!calc.equals("Error")) {
-                    Double part_num =Math.cos(Double.parseDouble(calc));
+                    Double part_num = 0.0;
+                    if  (inRad) {
+                        part_num = Math.tan(Double.parseDouble(calc));
+                    }
+                    else{
+                        part_num = Math.tan(Math.toRadians(Double.parseDouble(calc)));
+                    }
                     int next_index = skip(input,i);
                     i = next_index;
                     ret_val += part_num.toString();
@@ -570,7 +717,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             par.setVisibility(View.VISIBLE);
             icon.setVisibility(View.VISIBLE);
             logout.setVisibility(View.VISIBLE);
-            backspace.setVisibility(View.VISIBLE);
+            rad_status.setVisibility(View.VISIBLE);
+            rad.setVisibility(View.VISIBLE);
         }
         else{
             nine.setVisibility(View.GONE);
@@ -600,7 +748,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             par.setVisibility(View.GONE);
             icon.setVisibility(View.GONE);
             logout.setVisibility(View.GONE);
-            backspace.setVisibility(View.GONE);
+            rad_status.setVisibility(View.GONE);
+            rad.setVisibility(View.GONE);
         }
     }
     @Override
