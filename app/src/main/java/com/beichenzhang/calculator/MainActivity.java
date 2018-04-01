@@ -91,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inRad = true;
         Signin = (SignInButton)findViewById(R.id.bn_login);
         Signin.setOnClickListener(this);
-
         icon = (ImageView)findViewById(R.id.imageView);
         nine = (Button)findViewById(R.id.button2);
         nine.setOnClickListener(this);
@@ -508,8 +507,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 }
                 //calculate result from given string.
-                String resu = evaluate(proccesor);
-                result.setText(compute(resu));
+                Arithmatic calc = new Arithmatic();
+                String resu = calc.evaluate(proccesor,inRad);
+                result.setText(calc.compute(resu));
                 finish=true;
 
                 break;
@@ -521,141 +521,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
-//**********************************************************
-//param: String to compute
-//return: result string
-//Using rhino to do computation.
-//**********************************************************
-    public String compute(String a){
-        org.mozilla.javascript.Context rhino = new org.mozilla.javascript.Context().enter();
-        rhino.setOptimizationLevel(-1);
-        String resu = "";
-        try{
-            Scriptable scope = rhino.initStandardObjects();
-            resu = rhino.evaluateString(scope, a,"JavaScript",1,null).toString();
 
-        }
-        catch(Exception e)
-        {
-            resu = "Error";
-        }
-        return resu;
-    }
-//**********************************************************
-//param: String input;
-//       int    index;
-//return: int  the next index.
-//Helper function of  evaluate(String ..). Helps to find to next index to
-// process when met sin(),cos(),tan() in the string
-//**********************************************************
-    public int skip (String input, int index){
-        int theend=1;
-        int ret_val=0;
-        int size= input.length();
-        for (int i =index+4; i<size;i++){
-            if (theend ==0){
-                ret_val = i;
-                break;
-            }
-            if (input.charAt(i)==')'){
-                theend-=1;
-            }
-            if (input.charAt(i)=='('){
-                theend+=1;
-            }
-
-        }
-        if (ret_val==0){
-            return size;
-        }
-        return ret_val-1;
-    }
-//**********************************************************
-//param: String input;
-//return: String with no Sin(), Cos(), Tan().
-//Pre-process the string by Calculating Sin(), Cos() and Tan() in advanced.
-// Recursively called for each Sin(), Cos(), Tan().
-//**********************************************************
-    public String evaluate (String input){
-        int size = input.length();
-        String ret_val = "";
-        for (int i =0; i <size;i++){
-            if (input.charAt(i)=='S'){
-                String part = evaluate (input.substring(i+4));
-                String calc = compute(part);
-                if (!calc.equals("Error")) {
-                    Double part_num = 0.0;
-                    if  (inRad) {
-                        part_num = Math.sin(Double.parseDouble(calc));
-                    }
-                    else{
-                        part_num = Math.sin(Math.toRadians(Double.parseDouble(calc)));
-                    }
-                    int next_index = skip(input,i);
-                    i = next_index;
-                    ret_val += part_num.toString();
-                    if(i>=size){
-                        break;
-                    }
-                }
-                else{
-                    return "Error1";
-                }
-            }
-            else if (input.charAt(i)=='C'){
-                String part = evaluate (input.substring(i+4));
-                String calc = compute(part);
-                if (!calc.equals("Error")) {
-                    Double part_num = 0.0;
-                    if  (inRad) {
-                        part_num = Math.cos(Double.parseDouble(calc));
-                    }
-                    else{
-                        part_num = Math.cos(Math.toRadians(Double.parseDouble(calc)));
-                    }
-                    int next_index = skip(input,i);
-                    i = next_index;
-                    ret_val += part_num.toString();
-                    if(i>=size){
-                        break;
-                    }
-                }
-                else{
-                    return "Error1";
-                }
-            }
-            else if (input.charAt(i)=='T'){
-                String part = evaluate (input.substring(i+4));
-                String calc = compute(part);
-                if (!calc.equals("Error")) {
-                    Double part_num = 0.0;
-                    if  (inRad) {
-                        part_num = Math.tan(Double.parseDouble(calc));
-                    }
-                    else{
-                        part_num = Math.tan(Math.toRadians(Double.parseDouble(calc)));
-                    }
-                    int next_index = skip(input,i);
-                    i = next_index;
-                    ret_val += part_num.toString();
-                    if(i>=size){
-                        break;
-                    }
-                }
-                else{
-                    return "Error1";
-                }
-            }
-            else if (input.charAt(i)==')') {
-                break;
-            }
-            else{
-                ret_val= ret_val+ input.charAt(i);
-            }
-
-        }
-        return ret_val;
-    }
 
 
     @Override
