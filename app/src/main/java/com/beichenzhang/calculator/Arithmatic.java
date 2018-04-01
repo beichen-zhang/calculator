@@ -148,6 +148,7 @@ public class Arithmatic {
         double result=0.0;
         String num = "";
         int dot = 0;
+
         if (a.charAt(a.length()-1)=='+'||a.charAt(a.length()-1)=='-'){
             return "Error";
         }

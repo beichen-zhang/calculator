@@ -512,6 +512,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 result.setText(calc.compute(resu));
                 finish=true;
 
+
                 break;
             case R.id.button19:
                 signout();
