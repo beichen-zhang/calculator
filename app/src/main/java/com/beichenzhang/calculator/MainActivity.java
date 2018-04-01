@@ -517,6 +517,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.button19:
                 signout();
                 init();
+                proc.setText("");
+                result.setText("");
                 start = true;
                 break;
 
