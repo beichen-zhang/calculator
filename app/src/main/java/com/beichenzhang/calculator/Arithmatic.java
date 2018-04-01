@@ -177,12 +177,18 @@ public class Arithmatic {
                 }
                 dot = 0;
                 double number = Double.parseDouble(num);
-                String num_recur = Handle_add_sub(a.substring(i+1,a.length()));
+                String num_recur = "";
+                if ((i!=a.length()-1 )&&a.charAt(i+1)=='-'){
+                    num_recur = Handle_add_sub(a.substring(i+2,a.length()));
+                }
+                else {
+                    num_recur = Handle_add_sub('-' + a.substring(i + 1, a.length()));
+                }
                 if (num_recur.equals("Error")){
                     return "Error";
                 }
                 else{
-                    number-=Double.parseDouble(num_recur);
+                    number+=Double.parseDouble(num_recur);
                     return Double.toString(number);
                 }
             }
