@@ -256,7 +256,9 @@ public class Arithmatic {
         String ret_val = "";
         for (int i =0; i <size;i++){
             if (input.charAt(i)=='S'){
-
+                if (i+4>=size){
+                    return "Error";
+                }
                 String part = evaluate (input.substring(i+4),inRad);
                 String calc = compute(part);
                 if (!calc.equals("Error")) {
@@ -279,6 +281,9 @@ public class Arithmatic {
                 }
             }
             else if (input.charAt(i)=='C'){
+                if (i+4>=size){
+                    return "Error";
+                }
                 String part = evaluate (input.substring(i+4),inRad);
                 String calc = compute(part);
                 if (!calc.equals("Error")) {
@@ -301,6 +306,9 @@ public class Arithmatic {
                 }
             }
             else if (input.charAt(i)=='T'){
+                if (i+4>=size){
+                    return "Error";
+                }
                 String part = evaluate (input.substring(i+4),inRad);
                 String calc = compute(part);
                 if (!calc.equals("Error")) {
